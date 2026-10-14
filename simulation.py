@@ -1,5 +1,3 @@
-from typing import NoReturn
-
 from actions import Actions
 from mapp import Map
 import os
@@ -8,7 +6,7 @@ import msvcrt
 
 
 class Simulation():
-    def __init__(self) -> None:
+    def __init__(self):
         self.pause = True
         self.running = True
         self.mappa = Map()
@@ -17,7 +15,7 @@ class Simulation():
 
 
 
-    def next_turn(self) -> None:
+    def next_turn(self):
         print("-------------------------------")
         self.act.turn_action()
         self.mappa.show_mappa()
@@ -25,23 +23,18 @@ class Simulation():
 
 
 
-    def start_simulation(self) -> None:
-        while self.stop_simulation():
+    def start_simulation(self):
+        while True:
             self.pause_simulation()
-            if self.running:
+            if self.pause:
                 os.system('cls' if os.name == 'nt' else 'clear')
                 self.next_turn()
                 time.sleep(1.5)
             else:
-                time.sleep(0.1)
+                time.sleep(0.1)  # Sleep briefly to avoid busy waiting when paused
 
 
-    def pause_simulation(self) -> None:
+    def pause_simulation(self):
         if msvcrt.kbhit():
-            if msvcrt.getch() == b' ':
-                self.pause = not self.pause
-
-    def stop_simulation(self) -> None:
-        if msvcrt.kbhit():
-            if msvcrt.getch() == b'q' or msvcrt.getch() == b'Q':
-                self.running = False
+            if msvcrt.getch() == b' ':  # Check if ' ' key is pressed
+                self.pause = not self.pause  # Toggle the pause state
