@@ -8,7 +8,7 @@ class Actions:
     def init_actions(self, mappa):
         self.Mappa = mappa
 
-        add_objects_to_map(self.Mappa, Predator, 2, "🐉", 2, 100, 50)
+        add_objects_to_map(self.Mappa, Predator, 2, "🐉", 1, 100, 50)
         add_objects_to_map(self.Mappa, Herbivore, 3, "🦓", 2, 120)
         add_objects_to_map(self.Mappa, Grass, 3, "🌹")
         add_objects_to_map(self.Mappa, Tree, 2, "🌲")
