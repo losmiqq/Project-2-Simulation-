@@ -25,7 +25,12 @@ class Herbivore(Creature):
             return
         old_pos = self.position
         poses = [BFS(old_pos, pos, mappa) for pos in list_pos]
-        new_pos = min(poses, key=len)[1]
+        speed = self.speed
+        new_path = min(poses, key=len)
+        if speed < len(new_path) - 1:
+            new_pos = new_path[speed]
+        else:
+            new_pos = new_path[1]
 
         target = mappa.what_is_this(new_pos)
         if target == ".":
@@ -52,7 +57,13 @@ class Predator(Creature):
             return
         old_pos = self.position
         poses = [BFS(old_pos, pos, mappa) for pos in list_pos]
-        new_pos = min(poses, key=len)[1]
+        speed = self.speed
+
+        new_path = min(poses, key=len)
+        if speed < len(new_path) - 1:
+            new_pos = new_path[speed]
+        else:
+            new_pos = new_path[1]
 
         target = mappa.what_is_this(new_pos)
         if target == ".":
