@@ -4,6 +4,7 @@ from mapp import Map
 from objects import Grass
 from abc import abstractmethod
 
+
 class Creature(Entity):
     def __init__(self, name, speed, hp) -> None:
         super().__init__(name)
@@ -41,13 +42,10 @@ class Herbivore(Creature):
                 mappa.rewrite_pos(self, target)
 
 
-
-
 class Predator(Creature):
     def __init__(self, name: str, speed: int, hp: int, atack_power: int) -> None:
         super().__init__(name, speed, hp)
         self.attack_power = atack_power
-
 
     def attack(self, obj):
         obj.hp -= self.attack_power
@@ -74,7 +72,3 @@ class Predator(Creature):
                 if target.hp <= 0:
                     new_pos = target.position
                     mappa.rewrite_pos(self, target)
-
-
-
-

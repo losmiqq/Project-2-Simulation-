@@ -1,17 +1,20 @@
 import random as r
 
-class Map():
+
+class Map:
     def __init__(self):
         self.num_row = 10
         self.num_column = 10
-        self.mappa = [["." for j in range(self.num_row)] for i in range(self.num_column)]
+        self.mappa = [
+            ["." for j in range(self.num_row)] for i in range(self.num_column)
+        ]
 
     def add_pos(self, obj, new_pos):
         i, j = new_pos
         self.mappa[i][j] = obj
         obj.position = i, j
 
-    def add_pos_random(self, obj):# def add_pos(self, obj):
+    def add_pos_random(self, obj):  # def add_pos(self, obj):
         while True:
             i = r.randrange(self.num_row)
             j = r.randrange(self.num_column)
@@ -30,7 +33,6 @@ class Map():
                 if isinstance(cell, obj_class):
                     objects.append(cell)
         return objects
-
 
     def delete_pos(self, obj):
         row, column = obj.position
@@ -53,22 +55,20 @@ class Map():
 
     def get_neighbors(self, pos):
         row, column = pos
-        up = row-1, column
-        upright = row-1, column+1
-        right = row, column+1
-        downright = row+1, column+1
-        down = row+1, column
-        downleft = row+1, column-1
-        left = row, column-1
-        upleft = row-1, column-1
+        up = row - 1, column
+        upright = row - 1, column + 1
+        right = row, column + 1
+        downright = row + 1, column + 1
+        down = row + 1, column
+        downleft = row + 1, column - 1
+        left = row, column - 1
+        upleft = row - 1, column - 1
         neighbors = [up, upright, right, downright, down, downleft, left, upleft]
         correct_neighbors = []
         for i in neighbors:
             if i[0] in range(self.num_row) and i[1] in range(self.num_column):
                 correct_neighbors.append(i)
         return correct_neighbors
-
-
 
     def show_mappa(self):
         for row in range(self.num_row):

@@ -9,7 +9,6 @@ def BFS(start, target, mappa):
     queue.append(start)
     visited.add(start)
 
-
     while queue:
         current = queue.popleft()
         if current == target:
@@ -24,13 +23,9 @@ def BFS(start, target, mappa):
         neighbors = mappa.get_neighbors(current)
 
         for neighbor in neighbors:
-            if neighbor not in visited and (mappa.what_is_this(neighbor) == "." or
-                                            neighbor == target):
+            if neighbor not in visited and (
+                mappa.what_is_this(neighbor) == "." or neighbor == target
+            ):
                 queue.append(neighbor)
                 visited.add(neighbor)
                 came_from[neighbor] = current
-
-
-
-
-

@@ -8,6 +8,7 @@ class Stone(Entity):
 class Tree(Entity):
     pass
 
+
 class Grass(Entity):
-     # Мб позже добавить хуйню
-     pass
+    # Мб позже добавить хуйню
+    pass

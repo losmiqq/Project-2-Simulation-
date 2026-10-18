@@ -1,4 +1,3 @@
-
 def count_objects(mappa, object_class):
     count = 0
     for row in mappa:
