@@ -6,18 +6,18 @@ from abc import abstractmethod
 
 
 class Creature(Entity):
-    def __init__(self, name, speed, hp) -> None:
+    def __init__(self, name: str, speed: int, hp: int) -> None:
         super().__init__(name)
         self.speed = speed
         self.hp = hp
 
     @abstractmethod
-    def make_move(self, obj, mappa: Map) -> None:
+    def make_move(self, obj: Entity, mappa: Map) -> None:
         pass
 
 
 class Herbivore(Creature):
-    def eat(self):
+    def eat(self) -> None:
         # В будущем мб добавить разновидность травы и трава будет давать хп
         pass
 

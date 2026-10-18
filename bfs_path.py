@@ -1,7 +1,9 @@
 from collections import deque
 
+from mapp import Map
 
-def BFS(start, target, mappa):
+
+def BFS(start: tuple[int, int], target: tuple[int, int], mappa: Map) -> list[tuple[int, int]] | None:
     queue = deque()
     visited = set()
     came_from = dict()

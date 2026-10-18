@@ -1,4 +1,4 @@
-def count_objects(mappa, object_class):
+def count_objects(mappa: Map, object_class: type) -> int:
     count = 0
     for row in mappa:
         for cell in row:

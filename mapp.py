@@ -1,20 +1,22 @@
 import random as r
 
+from entity import Entity
+
 
 class Map:
-    def __init__(self):
+    def __init__(self) -> None:
         self.num_row = 10
         self.num_column = 10
         self.mappa = [
             ["." for j in range(self.num_row)] for i in range(self.num_column)
         ]
 
-    def add_pos(self, obj, new_pos):
+    def add_pos(self, obj: Entity, new_pos: tuple[int, int]) -> None:
         i, j = new_pos
         self.mappa[i][j] = obj
         obj.position = i, j
 
-    def add_pos_random(self, obj):  # def add_pos(self, obj):
+    def add_pos_random(self, obj: Entity) -> None:
         while True:
             i = r.randrange(self.num_row)
             j = r.randrange(self.num_column)
@@ -25,7 +27,7 @@ class Map:
                 obj.position = i, j
                 break
 
-    def get_list_of_objects(self, obj_class):
+    def get_list_of_objects(self, obj_class: type) -> list[Entity]:
         objects = []
         for row in range(self.num_row):
             for column in range(self.num_column):
@@ -34,26 +36,26 @@ class Map:
                     objects.append(cell)
         return objects
 
-    def delete_pos(self, obj):
+    def delete_pos(self, obj: Entity) -> None:
         row, column = obj.position
         self.mappa[row][column] = "."
         obj.position = None
 
-    def rewrite_pos(self, creature, target):
+    def rewrite_pos(self, creature: Entity, target: Entity) -> None:
         new_pos = target.position
         self.delete_pos(target)
         self.delete_pos(creature)
         self.add_pos(creature, new_pos)
 
-    def move(self, obj, new_pos):
+    def move(self, obj: Entity, new_pos: tuple[int, int]) -> None:
         self.delete_pos(obj)
         self.add_pos(obj, new_pos)
 
-    def what_is_this(self, pos):
+    def what_is_this(self, pos: tuple[int, int]) -> str | Entity:
         i, j = pos
         return self.mappa[i][j]
 
-    def get_neighbors(self, pos):
+    def get_neighbors(self, pos: tuple[int, int]) -> list[tuple[int, int]]:
         row, column = pos
         up = row - 1, column
         upright = row - 1, column + 1
@@ -70,7 +72,7 @@ class Map:
                 correct_neighbors.append(i)
         return correct_neighbors
 
-    def show_mappa(self):
+    def show_mappa(self) -> None:
         for row in range(self.num_row):
             for column in range(self.num_column):
                 cell = self.mappa[row][column]
