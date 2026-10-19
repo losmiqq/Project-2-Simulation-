@@ -1,5 +1,3 @@
-from typing import NoReturn
-
 from actions import Actions
 from mapp import Map
 import os
@@ -9,6 +7,7 @@ import msvcrt
 
 class Simulation:
     def __init__(self) -> None:
+        self.counter = 0
         self.pause = True
         self.running = True
         self.mappa = Map()
@@ -19,6 +18,8 @@ class Simulation:
         print("-------------------------------")
         self.act.turn_action()
         self.mappa.show_mappa()
+        self.counter +=1
+        print(f"Ход номер {self.counter}")
         print("-------------------------------")
 
     def start_simulation(self) -> None:
