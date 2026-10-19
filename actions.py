@@ -1,45 +1,43 @@
 from adding_objects import add_objects_to_map
 from creature import Predator, Herbivore
-from mapp import Map
 from objects import Grass, Tree, Stone
 from count_objs import count_objects
 
 
-class Actions:
-    def init_actions(self, mappa: Map) -> None:
-        self.Mappa = mappa
 
-        add_objects_to_map(self.Mappa, Predator, 2, "🐉", 1, 100, 50)
-        add_objects_to_map(self.Mappa, Herbivore, 3, "🦓", 2, 120)
-        add_objects_to_map(self.Mappa, Grass, 3, "🌹")
-        add_objects_to_map(self.Mappa, Tree, 2, "🌲")
-        add_objects_to_map(self.Mappa, Stone, 1, "🗿")
+class PopulateWorld():
+    def execute(self, mappa):
+        add_objects_to_map(mappa, Predator, 2, "🐉", 1, 100, 50)
+        add_objects_to_map(mappa, Herbivore, 3, "🦓", 2, 120)
+        add_objects_to_map(mappa, Grass, 3, "🌹")
+        add_objects_to_map(mappa, Tree, 2, "🌲")
+        add_objects_to_map(mappa, Stone, 1, "🗿")
 
-    def turn_action(self) -> None:
-        if count_objects(self.Mappa.mappa, Grass) == 0:
-            add_objects_to_map(self.Mappa, Grass, 3, "🌹")
-        if count_objects(self.Mappa.mappa, Herbivore) == 0:
-            add_objects_to_map(self.Mappa, Herbivore, 3, "🦓", 2, 120)
-        self.turn_herbivore_action()
-        self.turn_predator_action()
 
-    def turn_herbivore_action(self) -> None:
-        for herbivore in self.Mappa.get_list_of_objects(Herbivore):
+class SpawnGrass():
+    def execute(self, mappa):
+        if count_objects(mappa, Grass) == 0:
+            add_objects_to_map(mappa, Grass, 3, "🌹")
+
+
+class SpawnHerbivores():
+    def execute(self, mappa):
+        if count_objects(mappa, Herbivore) == 0:
+            add_objects_to_map(mappa, Herbivore, 3, "🦓", 2, 120)
+
+class MoveCreatures():
+    def execute(self, mappa):
+        for herbivore in mappa.get_list_of_objects(Herbivore):
             grass_list = [
-                grass.position for grass in self.Mappa.get_list_of_objects(Grass)
+                grass.position for grass in mappa.get_list_of_objects(Grass)
             ]
             if grass_list:
-                herbivore.make_move(self.Mappa, grass_list)
-            else:
-                return
+                herbivore.make_move(mappa, grass_list)
 
-    def turn_predator_action(self) -> None:
-        for predator in self.Mappa.get_list_of_objects(Predator):
+        for predator in mappa.get_list_of_objects(Predator):
             herbivore_list = [
                 herbivore.position
-                for herbivore in self.Mappa.get_list_of_objects(Herbivore)
+                for herbivore in mappa.get_list_of_objects(Herbivore)
             ]
             if herbivore_list:
-                predator.make_move(self.Mappa, herbivore_list)
-            else:
-                return
+                predator.make_move(mappa, herbivore_list)

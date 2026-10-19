@@ -1,4 +1,4 @@
-from actions import Actions
+from actions import PopulateWorld, SpawnGrass, SpawnHerbivores, MoveCreatures
 from mapp import Map
 import os
 import time
@@ -11,18 +11,22 @@ class Simulation:
         self.pause = True
         self.running = True
         self.mappa = Map()
-        self.act = Actions()
-        self.act.init_actions(self.mappa)
+        self.init_actions = [PopulateWorld()]
+
+        self.turn_actions =[SpawnGrass(), SpawnHerbivores(), MoveCreatures()]
 
     def next_turn(self) -> None:
         print("-------------------------------")
-        self.act.turn_action()
+        for action in self.turn_actions:
+            action.execute(self.mappa)
         self.mappa.show_mappa()
         self.counter +=1
         print(f"Ход номер {self.counter}")
         print("-------------------------------")
 
     def start_simulation(self) -> None:
+        for action in self.init_actions:
+            action.execute(self.mappa)
         while True:
             self.pause_simulation()
             if self.pause:
