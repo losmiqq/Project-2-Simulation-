@@ -5,6 +5,23 @@ from objects import Grass
 from abc import abstractmethod
 
 
+
+def find_nearest_path(
+        world: Map,
+        position: tuple[int, int] | None,
+        targets: list | None
+        ) -> None | list[tuple[int, int]]:
+
+    if not targets or position is None:
+        return None
+
+    paths = [BFS(position, pos, world) for pos in targets]
+    paths = [pose for pose in paths if pose is not None]
+    if not paths:
+        return None
+
+    return min(paths, key=len)
+
 class Creature(Entity):
     def __init__(self, name: str, speed: int, hp: int) -> None:
         super().__init__(name)
@@ -22,22 +39,15 @@ class Herbivore(Creature):
         pass
 
     def make_move(self, mappa: Map, list_pos: list) -> None:
-        if not list_pos:
-            return
-        if self.position is None:
-            return
-        old_pos = self.position
-        poses = [BFS(old_pos, pos, mappa) for pos in list_pos]
-        poses = [pose for pose in poses if pose is not None]
-        if not poses:
+        path = find_nearest_path(mappa, self.position, list_pos)
+        if path is None:
             return
 
         speed = self.speed
-        new_path = min(poses, key=len)
-        if speed < len(new_path) - 1:
-            new_pos = new_path[speed]
+        if speed < len(path) - 1:
+            new_pos = path[speed]
         else:
-            new_pos = new_path[1]
+            new_pos = path[1]
 
         target = mappa.what_is_this(new_pos)
         if target == ".":
@@ -57,22 +67,15 @@ class Predator(Creature):
         obj.hp -= self.attack_power
 
     def make_move(self, mappa: Map, list_pos: list) -> None:
-        if not list_pos:
-            return
-        if self.position is None:
-            return
-        old_pos = self.position
-        poses = [BFS(old_pos, pos, mappa) for pos in list_pos]
-        poses = [pose for pose in poses if pose is not None]
-        if not poses:
+        path = find_nearest_path(mappa, self.position, list_pos)
+        if path is None:
             return
 
         speed = self.speed
-        new_path = min(poses, key=len)
-        if speed < len(new_path) - 1:
-            new_pos = new_path[speed]
+        if speed < len(path) - 1:
+            new_pos = path[speed]
         else:
-            new_pos = new_path[1]
+            new_pos = path[1]
 
         target = mappa.what_is_this(new_pos)
         if target == ".":
