@@ -2,7 +2,7 @@ from entity import Entity
 from bfs_path import BFS
 from mapp import Map
 from objects import Grass
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 
 
 
@@ -22,15 +22,19 @@ def find_nearest_path(
 
     return min(paths, key=len)
 
-class Creature(Entity):
+
+Position = tuple[int, int]
+
+
+class Creature(Entity, ABC):
     def __init__(self, name: str, speed: int, hp: int) -> None:
         super().__init__(name)
         self.speed = speed
         self.hp = hp
 
     @abstractmethod
-    def make_move(self, mappa: Map, list_pos: list) -> None:
-        pass
+    def make_move(self, mappa: Map, list_pos: list[Position]) -> None:
+        raise NotImplementedError
 
 
 class Herbivore(Creature):
@@ -38,7 +42,7 @@ class Herbivore(Creature):
         # В будущем мб добавить разновидность травы и трава будет давать хп
         pass
 
-    def make_move(self, mappa: Map, list_pos: list) -> None:
+    def make_move(self, mappa: Map, list_pos: list[Position]) -> None:
         path = find_nearest_path(mappa, self.position, list_pos)
         if path is None:
             return
@@ -66,7 +70,7 @@ class Predator(Creature):
     def attack(self, obj):
         obj.hp -= self.attack_power
 
-    def make_move(self, mappa: Map, list_pos: list) -> None:
+    def make_move(self, mappa: Map, list_pos: list[Position]) -> None:
         path = find_nearest_path(mappa, self.position, list_pos)
         if path is None:
             return
