@@ -1,5 +1,6 @@
 from actions import PopulateWorld, SpawnGrass, SpawnHerbivores, MoveCreatures
 from mapp import Map
+from map_renderer import show_mappa
 import os
 import time
 import msvcrt
@@ -19,7 +20,7 @@ class Simulation:
         print("-------------------------------")
         for action in self.turn_actions:
             action.execute(self.mappa)
-        self.mappa.show_mappa()
+        show_mappa(self.mappa)
         self.counter +=1
         print(f"Ход номер {self.counter}")
         print("-------------------------------")

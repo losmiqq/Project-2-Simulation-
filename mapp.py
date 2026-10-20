@@ -71,13 +71,3 @@ class Map:
             if i[0] in range(self.num_row) and i[1] in range(self.num_column):
                 correct_neighbors.append(i)
         return correct_neighbors
-
-    def show_mappa(self) -> None:
-        for row in range(self.num_row):
-            for column in range(self.num_column):
-                cell = self.mappa[row][column]
-                if cell == ".":
-                    print(". ", end=" ")
-                else:
-                    print(cell.name, end=" ")
-            print()
