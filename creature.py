@@ -12,7 +12,7 @@ class Creature(Entity):
         self.hp = hp
 
     @abstractmethod
-    def make_move(self, obj: Entity, mappa: Map) -> None:
+    def make_move(self, mappa: Map, list_pos: list) -> None:
         pass
 
 
@@ -24,8 +24,14 @@ class Herbivore(Creature):
     def make_move(self, mappa: Map, list_pos: list) -> None:
         if not list_pos:
             return
+        if self.position is None:
+            return
         old_pos = self.position
         poses = [BFS(old_pos, pos, mappa) for pos in list_pos]
+        poses = [pose for pose in poses if pose is not None]
+        if not poses:
+            return
+
         speed = self.speed
         new_path = min(poses, key=len)
         if speed < len(new_path) - 1:
@@ -51,12 +57,17 @@ class Predator(Creature):
         obj.hp -= self.attack_power
 
     def make_move(self, mappa: Map, list_pos: list) -> None:
-        if list_pos == False:
+        if not list_pos:
+            return
+        if self.position is None:
             return
         old_pos = self.position
         poses = [BFS(old_pos, pos, mappa) for pos in list_pos]
-        speed = self.speed
+        poses = [pose for pose in poses if pose is not None]
+        if not poses:
+            return
 
+        speed = self.speed
         new_path = min(poses, key=len)
         if speed < len(new_path) - 1:
             new_pos = new_path[speed]
