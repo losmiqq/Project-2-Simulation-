@@ -3,13 +3,13 @@ from mapp import Map
 from map_renderer import show_mappa
 import os
 import time
-import msvcrt
+from pynput import keyboard
 
 
 class Simulation:
     def __init__(self) -> None:
         self.counter = 0
-        self.pause = True
+        self.pause = False
         self.running = True
         self.mappa = Map()
         self.init_actions = [PopulateWorld()]
@@ -28,16 +28,29 @@ class Simulation:
     def start_simulation(self) -> None:
         for action in self.init_actions:
             action.execute(self.mappa)
-        while True:
-            self.pause_simulation()
-            if self.pause:
-                os.system("cls" if os.name == "nt" else "clear")
-                self.next_turn()
-                time.sleep(1.5)
-            else:
-                time.sleep(0.1)  # Sleep briefly to avoid busy waiting when paused
+
+        listener = keyboard.Listener(on_press=self.handle_key)
+        listener.start()
+        try:
+            while self.running:
+                if not self.pause:
+                    os.system("cls" if os.name == "nt" else "clear")
+                    self.next_turn()
+                    time.sleep(1.5)
+                else:
+                    time.sleep(0.1)  # Sleep briefly to avoid busy waiting when paused
+        finally:
+            listener.stop()
 
     def pause_simulation(self) -> None:
-        if msvcrt.kbhit():
-            if msvcrt.getch() == b" ":  # Check if ' ' key is pressed
-                self.pause = not self.pause  # Toggle the pause state
+        self.pause = True
+
+    def resume_simulation(self) -> None:
+        self.pause = False
+
+    def handle_key(self, key) -> None:
+        if key == keyboard.Key.space:
+            self.pause = not self.pause
+
+        elif hasattr(key, "char") and key.char and key.char.lower() == "q":
+            self.running = False
