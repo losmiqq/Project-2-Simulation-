@@ -41,8 +41,18 @@ Each emoji represents an object occupying a cell on the simulation map.
 
 - Python 3 installed on your system
 - A terminal or command-line interface
+- Dependencies listed in `requirements.txt`
 
-The current keyboard control implementation uses Python's `msvcrt` module and is intended for Windows.
+## Installation
+
+1. Clone or download the repository.
+2. Open the project directory in your terminal.
+3. (Optional) Create and activate a virtual environment.
+4. Install the required dependencies:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 ## How to Run
 
@@ -59,7 +69,7 @@ The current keyboard control implementation uses Python's `msvcrt` module and is
 | Key | Action |
 |---|---|
 | Spacebar | Pause or resume the simulation |
-| q or Q | Stop the program |
+| Q or q | Stop the program |
 
 ## Project Structure
 
