@@ -12,9 +12,12 @@ class Map:
         ]
 
     def add_pos(self, obj: Entity, new_pos: tuple[int, int]) -> None:
-        i, j = new_pos
-        self.mappa[i][j] = obj
-        obj.position = i, j
+        if obj.position is None:
+            i, j = new_pos
+            if i in range(self.num_row) and j in range(self.num_column):
+                if self.mappa[i][j] == ".":
+                    self.mappa[i][j] = obj
+                    obj.position = i, j
 
     def add_pos_random(self, obj: Entity) -> None:
         while True:
@@ -27,7 +30,7 @@ class Map:
                 obj.position = i, j
                 break
 
-    def get_list_of_objects(self, obj_class: type) -> list[Entity]:
+    def get_list_of_objects(self, obj_class: Entity) -> list[Entity]:
         objects = []
         for row in range(self.num_row):
             for column in range(self.num_column):
@@ -37,9 +40,14 @@ class Map:
         return objects
 
     def delete_pos(self, obj: Entity) -> None:
+        if not self.has_entities(obj) or obj.position is None:
+            return
+
         row, column = obj.position
-        self.mappa[row][column] = "."
-        obj.position = None
+        if row in range(self.num_row) and column in range(self.num_column):
+            if self.mappa[row][column] is obj:
+                self.mappa[row][column] = "."
+                obj.position = None
 
     def rewrite_pos(self, creature: Entity, target: Entity) -> None:
         new_pos = target.position
