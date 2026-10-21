@@ -40,7 +40,7 @@ class Map:
         return objects
 
     def delete_pos(self, obj: Entity) -> None:
-        if not self.has_entities(obj) or obj.position is None:
+        if obj.position is None:
             return
 
         row, column = obj.position
