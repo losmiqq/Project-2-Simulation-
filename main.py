@@ -1,5 +1,9 @@
 # main file
 from simulation import Simulation
 
-simulation = Simulation()
-simulation.start_simulation()
+def main():
+    simulation = Simulation()
+    simulation.start_simulation()
+
+if __name__ == "__main__":
+    main()
