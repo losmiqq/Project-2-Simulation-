@@ -1,7 +1,7 @@
 # main file
 from simulation import Simulation
 
-def main():
+def main() -> None:
     simulation = Simulation()
     simulation.start_simulation()
 
