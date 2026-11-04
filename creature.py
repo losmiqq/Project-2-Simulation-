@@ -9,7 +9,7 @@ from abc import ABC, abstractmethod
 def find_nearest_path(
         world: Map,
         position: tuple[int, int] | None,
-        targets: list | None
+        targets: list[tuple[int, int]] | None
         ) -> None | list[tuple[int, int]]:
 
     if not targets or position is None:
@@ -39,7 +39,6 @@ class Creature(Entity, ABC):
 
 class Herbivore(Creature):
     def eat(self) -> None:
-        # В будущем мб добавить разновидность травы и трава будет давать хп
         pass
 
     def make_move(self, mappa: Map, list_pos: list[Position]) -> None:
@@ -63,11 +62,11 @@ class Herbivore(Creature):
 
 
 class Predator(Creature):
-    def __init__(self, name: str, speed: int, hp: int, atack_power: int) -> None:
+    def __init__(self, name: str, speed: int, hp: int, attack_power: int) -> None:
         super().__init__(name, speed, hp)
-        self.attack_power = atack_power
+        self.attack_power = attack_power
 
-    def attack(self, obj):
+    def attack(self, obj) -> None:
         obj.hp -= self.attack_power
 
     def make_move(self, mappa: Map, list_pos: list[Position]) -> None:
