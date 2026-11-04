@@ -12,14 +12,23 @@ class Map:
         ]
 
     def add_pos(self, obj: Entity, new_pos: tuple[int, int]) -> None:
-        if obj.position is None:
-            i, j = new_pos
-            if i in range(self.num_row) and j in range(self.num_column):
-                if self.mappa[i][j] == ".":
-                    self.mappa[i][j] = obj
-                    obj.position = i, j
+        if obj.position is not None:
+            return
+
+        i, j = new_pos
+        if i not in range(self.num_row) or j not in range(self.num_column):
+            return
+
+        if self.mappa[i][j] != ".":
+            return
+
+        self.mappa[i][j] = obj
+        obj.position = i, j
 
     def add_pos_random(self, obj: Entity) -> None:
+        if obj.position is not None:
+            return
+
         while True:
             i = r.randrange(self.num_row)
             j = r.randrange(self.num_column)
@@ -30,7 +39,7 @@ class Map:
                 obj.position = i, j
                 break
 
-    def get_list_of_objects(self, obj_class: Entity) -> list[Entity]:
+    def get_list_of_objects(self, obj_class: type[Entity]) -> list[Entity]:
         objects = []
         for row in range(self.num_row):
             for column in range(self.num_column):
@@ -50,12 +59,29 @@ class Map:
                 obj.position = None
 
     def rewrite_pos(self, creature: Entity, target: Entity) -> None:
+        if creature.position is None or target.position is None:
+            return
+
         new_pos = target.position
+
+        if new_pos[0] not in range(self.num_row) or new_pos[1] not in range(self.num_column):
+            return
+
         self.delete_pos(target)
         self.delete_pos(creature)
         self.add_pos(creature, new_pos)
 
     def move(self, obj: Entity, new_pos: tuple[int, int]) -> None:
+        if obj.position is None:
+            return
+        i, j = new_pos
+
+        if i not in range(self.num_row) or j not in range(self.num_column):
+            return
+
+        if self.mappa[i][j] != ".":
+            return
+
         self.delete_pos(obj)
         self.add_pos(obj, new_pos)
 
