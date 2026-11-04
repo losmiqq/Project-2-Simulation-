@@ -1,7 +1,6 @@
 from adding_objects import add_objects_to_map
 from creature import Predator, Herbivore
 from objects import Grass, Tree, Stone
-from count_objs import count_objects
 
 
 
@@ -15,18 +14,18 @@ class PopulateWorld():
 
 
 class SpawnGrass():
-    def execute(self, mappa):
-        if count_objects(mappa, Grass) == 0:
+    def execute(self, mappa) -> None:
+        if len(mappa.get_list_of_objects(Grass)) == 0:
             add_objects_to_map(mappa, Grass, 3, "🌹")
 
 
 class SpawnHerbivores():
-    def execute(self, mappa):
-        if count_objects(mappa, Herbivore) == 0:
+    def execute(self, mappa) -> None:
+        if len(mappa.get_list_of_objects(Herbivore)) == 0:
             add_objects_to_map(mappa, Herbivore, 3, "🦓", 2, 120)
 
 class MoveCreatures():
-    def execute(self, mappa):
+    def execute(self, mappa) -> None:
         for herbivore in mappa.get_list_of_objects(Herbivore):
             grass_list = [
                 grass.position for grass in mappa.get_list_of_objects(Grass)
