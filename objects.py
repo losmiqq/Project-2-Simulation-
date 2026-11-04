@@ -10,5 +10,4 @@ class Tree(Entity):
 
 
 class Grass(Entity):
-    # Мб позже добавить хуйню
     pass
