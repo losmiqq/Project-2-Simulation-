@@ -39,7 +39,8 @@ Each emoji represents an object occupying a cell on the simulation map.
 
 ## Requirements
 
-- Python 3 installed on your system
+- Python 3.12
+- Windows 10/11 (tested on Windows)
 - A terminal or command-line interface
 - Dependencies listed in `requirements.txt`
 
@@ -108,10 +109,10 @@ The simulation creates a map and populates it with creatures and environmental o
 
 During each turn:
 
-1. Herbivores search for grass and move toward their targets.
-2. Predators search for herbivores and move toward their targets.
-3. The map is updated as creatures move and interact with objects.
-4. Grass and herbivores are replenished when their respective counts reach zero.
+1. Grass and herbivores are replenished when their respective counts reach zero.
+2. Herbivores search for grass and move toward their targets.
+3. Predators search for herbivores and move toward their targets.
+4. The map is updated as creatures move and interact with objects.
 5. The updated map is displayed in the terminal.
 
 BFS is used to determine paths through the grid, allowing creatures to navigate toward their targets.
