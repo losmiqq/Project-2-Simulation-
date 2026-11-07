@@ -46,19 +46,22 @@ class Herbivore(Creature):
         if path is None:
             return
 
-        speed = self.speed
-        if speed < len(path) - 1:
-            new_pos = path[speed]
-        else:
+        if len(path) == 2:
             new_pos = path[1]
-
-        target = mappa.what_is_this(new_pos)
-        if target == ".":
-            mappa.move(self, new_pos)
-        else:
+            target = mappa.what_is_this(new_pos)
             if isinstance(target, Grass):
                 self.eat()
                 mappa.rewrite_pos(self, target)
+        else:
+            speed = self.speed
+            while speed >= len(path) - 1:
+                speed -= 1
+
+            new_pos = path[speed]
+
+            target = mappa.what_is_this(new_pos)
+            if target == ".":
+                mappa.move(self, new_pos)
 
 
 class Predator(Creature):
@@ -74,18 +77,21 @@ class Predator(Creature):
         if path is None:
             return
 
-        speed = self.speed
-        if speed < len(path) - 1:
-            new_pos = path[speed]
-        else:
+        if len(path) == 2:
             new_pos = path[1]
-
-        target = mappa.what_is_this(new_pos)
-        if target == ".":
-            mappa.move(self, new_pos)
-        else:
+            target = mappa.what_is_this(new_pos)
             if isinstance(target, Herbivore):
                 self.attack(target)
                 if target.hp <= 0:
                     new_pos = target.position
                     mappa.rewrite_pos(self, target)
+        else:
+            speed = self.speed
+            while speed >= len(path) - 1:
+                speed -= 1
+
+            new_pos = path[speed]
+
+            target = mappa.what_is_this(new_pos)
+            if target == ".":
+                mappa.move(self, new_pos)
